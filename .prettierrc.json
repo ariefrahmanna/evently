@@ -1,0 +1,12 @@
+{
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "importOrder": ["^react$", "^(?!^react$|^@/|^[./]).*", "^@/(.*)$", "^[./]"],
+  "importOrderParserPlugins": ["jsx", "typescript"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5"
+}
