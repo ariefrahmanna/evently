@@ -1,6 +1,5 @@
 import { withUt } from 'uploadthing/tw';
 
-
 const config = withUt({
   darkMode: ['class'],
   content: [
