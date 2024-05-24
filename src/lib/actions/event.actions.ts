@@ -1,6 +1,7 @@
 'use server';
 
 import { connectToDatabase } from '@/lib/database';
+import Category from '@/lib/database/models/category.model';
 import Event from '@/lib/database/models/event.model';
 import User from '@/lib/database/models/user.model';
 import { handleError } from '@/lib/utils';
@@ -27,6 +28,26 @@ export const createEvent = async ({
     });
 
     return JSON.parse(JSON.stringify(newEvent));
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+const populateEvent = async (query: any) => {
+  return query
+    .populate({ path: 'organizer', model: User, select: '_id firstName lastName' })
+    .populate({ path: 'category', model: Category, select: '_id name' });
+};
+
+export const getEventById = async (eventId: string) => {
+  try {
+    const event = await populateEvent(Event.findById(eventId));
+
+    if (!event) {
+      throw new Error('Event not found');
+    }
+
+    return JSON.parse(JSON.stringify(event));
   } catch (error) {
     handleError(error);
   }
