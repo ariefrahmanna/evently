@@ -14,6 +14,7 @@ export async function createUser(user: CreateUserParams) {
     await connectToDatabase();
 
     const newUser = await User.create(user);
+
     return JSON.parse(JSON.stringify(newUser));
   } catch (error) {
     handleError(error);
@@ -26,7 +27,10 @@ export async function getUserById(userId: string) {
 
     const user = await User.findById(userId);
 
-    if (!user) throw new Error('User not found');
+    if (!user) {
+      throw new Error('User not found');
+    }
+
     return JSON.parse(JSON.stringify(user));
   } catch (error) {
     handleError(error);
@@ -41,7 +45,10 @@ export async function updateUser(clerkId: string, user: UpdateUserParams) {
       new: true,
     });
 
-    if (!updatedUser) throw new Error('User update failed');
+    if (!updatedUser) {
+      throw new Error('User update failed');
+    }
+
     return JSON.parse(JSON.stringify(updatedUser));
   } catch (error) {
     handleError(error);
@@ -63,7 +70,6 @@ export async function deleteUser(clerkId: string) {
         { _id: { $in: userToDelete.events } },
         { $pull: { organizer: userToDelete._id } }
       ),
-
       Order.updateMany(
         { _id: { $in: userToDelete.orders } },
         { $unset: { buyer: 1 } }
